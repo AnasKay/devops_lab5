@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: outyet-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/AnasKay/devops_lab5/
+    targetRevision: HEAD
+    path: k8s/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: new-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

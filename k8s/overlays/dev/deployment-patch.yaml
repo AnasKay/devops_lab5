@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outyet-deployment
+  namespace: new-demo
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: outyet
+          image: ghcr.io/anaskay/outyet-student:latest
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
