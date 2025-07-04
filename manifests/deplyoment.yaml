@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outyet-deployment
+  namespace: new-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: outyet
+  template:
+    metadata:
+      labels:
+        app: outyet
+    spec:
+      containers:
+        - name: outyet
+          image: ghcr.io/anaskay/outyet-student:latest
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
